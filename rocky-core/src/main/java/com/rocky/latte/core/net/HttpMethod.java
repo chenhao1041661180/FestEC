@@ -9,6 +9,8 @@ package com.rocky.latte.core.net;
 
 public enum HttpMethod {
     POST,
+    POST_RAW,
+    PUT_RAW,
     GET,
     PUT,
     UPLOAD,
