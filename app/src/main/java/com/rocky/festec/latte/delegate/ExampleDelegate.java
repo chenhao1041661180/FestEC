@@ -31,11 +31,11 @@ public class ExampleDelegate extends LatteDelegate {
     private void test() {
         RestClient.builder()
                 .url("https://email2.163.com/")
-                .params("", "")
+                .loader(getContext())
                 .callback(new ResponseCallback() {
                     @Override
                     public void onSuccess(String message) {
-                        Log.i("xx", "onSuccess:"+message);
+                        Log.i("xx", "onSuccess:");
                     }
 
                     @Override

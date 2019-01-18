@@ -1,5 +1,12 @@
 package com.rocky.latte.core.net.callback;
 
+import android.content.Context;
+import android.os.Handler;
+
+import com.rocky.latte.core.ui.LatteLoader;
+import com.rocky.latte.core.ui.LoaderCreator;
+import com.rocky.latte.core.ui.LoaderStyle;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,10 +21,15 @@ import retrofit2.Response;
 public class RequestCallback implements Callback<String> {
     private ResponseCallback CALLBACK;
     private IRequest IREQUEST;
+    private Context context;
+    private LoaderStyle LOADER_STYLE;
+    private static final Handler mHandler = new Handler();
 
-    public RequestCallback(ResponseCallback CALLBACK, IRequest IREQUEST) {
+    public RequestCallback(Context CONTEXT, ResponseCallback CALLBACK, IRequest IREQUEST, LoaderStyle LOADER_STYLE) {
         this.CALLBACK = CALLBACK;
         this.IREQUEST = IREQUEST;
+        this.context = CONTEXT;
+        this.LOADER_STYLE = LOADER_STYLE;
     }
 
     @Override
@@ -33,6 +45,7 @@ public class RequestCallback implements Callback<String> {
             if (CALLBACK != null)
                 CALLBACK.onError(response.code(), response.message());
         }
+        stopDialog();
     }
 
     @Override
@@ -42,5 +55,18 @@ public class RequestCallback implements Callback<String> {
 
         if (IREQUEST != null)
             IREQUEST.onRequestFinish();
+
+        stopDialog();
+    }
+    private void stopDialog() {
+        if (LOADER_STYLE != null) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    LatteLoader.stopLoading();
+                }
+            },1000);
+
+        }
     }
 }
