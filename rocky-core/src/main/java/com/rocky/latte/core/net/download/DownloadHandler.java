@@ -1,5 +1,7 @@
 package com.rocky.latte.core.net.download;
 
+import android.os.AsyncTask;
+
 import com.rocky.latte.core.net.RestCreator;
 import com.rocky.latte.core.net.callback.IRequest;
 import com.rocky.latte.core.net.callback.ResponseCallback;
@@ -40,16 +42,32 @@ public class DownloadHandler {
     }
 
     public void handleDownload() {
-
+        if (IREQUEST != null)
+            IREQUEST.onRequestStart();
         RestCreator.getRestService().download(URL, PARAMS).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    final ResponseBody responseBody = response.body();
+                    SaveFileTask saveFileTask = new SaveFileTask(CALLBACK, IREQUEST);
+                    saveFileTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, responseBody, DOWNLOAD_DIR, EXTENSION, NAME);
 
+                    //这里需要判断,否则文件下载不全
+                    if (saveFileTask.isCancelled()){
+                        if (IREQUEST!=null){
+                            IREQUEST.onRequestFinish();
+                        }
+                    }
+                }else {
+                    if (CALLBACK!=null)
+                        CALLBACK.onError(response.code(),response.message());
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                if (CALLBACK!=null)
+                    CALLBACK.onFailed();
             }
         });
 
