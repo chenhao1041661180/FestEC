@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.rocky.festec.latte.R;
+import com.rocky.latte.core.app.Latte;
 import com.rocky.latte.core.delegates.LatteDelegate;
 import com.rocky.latte.core.net.RestClient;
 import com.rocky.latte.core.net.callback.ResponseCallback;
@@ -30,12 +32,13 @@ public class ExampleDelegate extends LatteDelegate {
 
     private void test() {
         RestClient.builder()
-                .url("https://email2.163.com/")
+                .url("/api/index")
                 .loader(getContext())
                 .callback(new ResponseCallback() {
                     @Override
                     public void onSuccess(String message) {
-                        Log.i("xx", "onSuccess:");
+                        Log.i("xx", "onSuccess:"+message);
+                        Toast.makeText(Latte.getApplicationContext(),message,Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

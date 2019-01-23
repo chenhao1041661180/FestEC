@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.WeakHashMap;
 
+import okhttp3.Interceptor;
+
 /**
  * 模块说明：
  *
@@ -15,11 +17,12 @@ import java.util.WeakHashMap;
  */
 
 public final class Configurator {
-    public static final HashMap<String, Object> LATTE_CONFIGS = new HashMap<>();
+    public static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap<>();
     public static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
+    public static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList<>();
 
     public Configurator() {
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), false);
+        LATTE_CONFIGS.put(ConfigType.CONFIG_READY, false);
     }
 
     public static Configurator getInstance() {
@@ -30,15 +33,18 @@ public final class Configurator {
         private static final Configurator INSTANCE = new Configurator();
     }
 
-    final HashMap<String, Object> getLatteConfigs() {
+    final HashMap<Object, Object> getLatteConfigs() {
         return LATTE_CONFIGS;
     }
 
     public final void configure() {
         initIcons();
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), true);
+        LATTE_CONFIGS.put(ConfigType.CONFIG_READY, true);
     }
 
+    /**
+     * 初始化图标
+     */
     private void initIcons() {
         if (ICONS.size() > 0) {
             final Iconify.IconifyInitializer initializer = Iconify.with(ICONS.get(0));
@@ -48,22 +54,53 @@ public final class Configurator {
         }
     }
 
+    /**
+     * 请求api地址
+     * @param apiHost
+     * @return
+     */
     public final Configurator withApiHost(String apiHost) {
-        LATTE_CONFIGS.put(ConfigType.API_HOST.name(), apiHost);
+        LATTE_CONFIGS.put(ConfigType.API_HOST, apiHost);
         return this;
     }
 
+    /**
+     * 添加字体图标
+     * @param iconFontDescriptor
+     * @return
+     */
     public final Configurator withIcons(IconFontDescriptor iconFontDescriptor) {
         ICONS.add(iconFontDescriptor);
         return this;
     }
 
     /**
+     *  添加请求拦截器
+     * @param interceptor
+     * @return
+     */
+    public final Configurator withInterceptor(Interceptor interceptor) {
+        INTERCEPTORS.add(interceptor);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR, INTERCEPTORS);
+        return this;
+    }
+
+    /**
+     * 添加请求拦截器
+     * @param interceptors
+     * @return
+     */
+    public final Configurator withInterceptors(ArrayList<Interceptor> interceptors) {
+        INTERCEPTORS.addAll(interceptors);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR, INTERCEPTORS);
+        return this;
+    }
+    /**
      * 检查配置
      */
     @SuppressWarnings("unchecked")
     private void checkConfigurations() {
-        final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigType.CONFIG_READY.name());
+        final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigType.CONFIG_READY);
         if (!isReady)
             throw new RuntimeException("Configuration is not ready,call configure");
     }
@@ -77,6 +114,6 @@ public final class Configurator {
      */
     final <T> T getConfiguration(Enum<ConfigType> typeEnum) {
         checkConfigurations();
-        return (T) LATTE_CONFIGS.get(typeEnum.name());
+        return (T) LATTE_CONFIGS.get(typeEnum);
     }
 }

@@ -1,6 +1,7 @@
 package com.rocky.latte.core.app;
 
 import android.content.Context;
+import android.os.Handler;
 
 import java.util.HashMap;
 
@@ -14,15 +15,24 @@ import java.util.HashMap;
 public final class Latte {
 
     public static Configurator init(Context context) {
-        getConfigurations().put(ConfigType.APPLICATION_CONTEXT.name(), context.getApplicationContext());
+        getConfigurator()
+                .getLatteConfigs()
+                .put(ConfigType.APPLICATION_CONTEXT, context.getApplicationContext());
         return Configurator.getInstance();
     }
 
-    public static HashMap<String, Object> getConfigurations() {
-        return Configurator.getInstance().getLatteConfigs();
+    public static Configurator getConfigurator() {
+        return Configurator.getInstance();
+    }
+
+    public static <T> T getConfigurations(Enum<ConfigType> typeEnum) {
+        return getConfigurator().getConfiguration(typeEnum);
     }
 
     public static Context getApplicationContext() {
-        return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
+        return getConfigurations(ConfigType.APPLICATION_CONTEXT);
     }
+//    public static Handler getHandler() {
+//        return getConfigurations(ConfigType.HANDLER);
+//    }
 }

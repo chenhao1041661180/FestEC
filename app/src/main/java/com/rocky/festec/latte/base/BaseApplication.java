@@ -5,7 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.rocky.festec.latte.R;
 import com.rocky.latte.core.app.Latte;
+import com.rocky.latte.core.net.interceptor.DebugInterceptor;
 import com.rocky.latte.ec.icon.FontEcModule;
 
 /**
@@ -29,6 +31,7 @@ public class BaseApplication extends Application {
 
                 .withIcons(new FontEcModule())
                 .withIcons(new FontAwesomeModule())
+                .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .configure();
     }
 }

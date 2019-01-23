@@ -11,5 +11,7 @@ public enum ConfigType {
     APPLICATION_CONTEXT,
     API_HOST,
     CONFIG_READY,
-    ICON
+    ICON,
+    LOADER_DELAYED,
+    INTERCEPTOR
 }
