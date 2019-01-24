@@ -6,6 +6,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.rocky.latte.core.delegates.LatteDelegate;
+import com.rocky.latte.core.ui.launcher.ScrollLauncherTag;
+import com.rocky.latte.core.util.storage.LattePreference;
 import com.rocky.latte.core.util.timer.BaseTimerTask;
 import com.rocky.latte.core.util.timer.ITimerListener;
 import com.rocky.latte.ec.R;
@@ -27,8 +29,8 @@ import butterknife.OnClick;
 public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     @BindView(R2.id.tv_delegate_timer)
     AppCompatTextView mTvTimer;
-    private int mCount = 5;
-    private Timer timer = null;
+    private int mCount = 6;
+    private Timer mTimer = null;
 
     @Override
     public Object setLayout() {
@@ -37,6 +39,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     @OnClick(R2.id.tv_delegate_timer)
     void setOnClick() {
+        onClickTimerView();
     }
 
     @Override
@@ -45,9 +48,22 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     }
 
     private void initTimer() {
-        timer = new Timer();
+        mTimer = new Timer();
         final BaseTimerTask timerTask = new BaseTimerTask(this);
-        timer.schedule(timerTask, 0, 1000);
+        mTimer.schedule(timerTask, 0, 1000);
+    }
+
+    private void checkIsShowScroll() {
+        if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
+            start(new LauncherSplishDelegate(), SINGLETASK);
+        }
+    }
+    private void onClickTimerView() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+            checkIsShowScroll();
+        }
     }
 
     @Override
@@ -55,14 +71,11 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTvTimer.setText(MessageFormat.format("跳过\n{0}s", mCount));
                 mCount--;
                 if (mCount <= 0) {
-                    if (timer != null)
-                        timer.cancel();
-                    timer = null;
-                }
-
+                    onClickTimerView();
+                }else
+                mTvTimer.setText(MessageFormat.format("跳过\n{0}s", mCount));
             }
         });
     }

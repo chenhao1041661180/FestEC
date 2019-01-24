@@ -8,6 +8,8 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.rocky.latte.core.delegates.LatteDelegate;
 import com.rocky.latte.core.ui.launcher.LauncherHolderCreater;
+import com.rocky.latte.core.ui.launcher.ScrollLauncherTag;
+import com.rocky.latte.core.util.storage.LattePreference;
 import com.rocky.latte.ec.R;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  * @date 2019/1/24
  */
 
-public class LauncherSplishDelegate extends LatteDelegate implements OnItemClickListener{
+public class LauncherSplishDelegate extends LatteDelegate implements OnItemClickListener {
     ConvenientBanner<Integer> mConvenientBanner = null;
     ArrayList<Integer> INTEGERS = new ArrayList<>();
 
@@ -28,7 +30,8 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
         mConvenientBanner = new ConvenientBanner<Integer>(getContext());
         return mConvenientBanner;
     }
-    private void initBanner(){
+
+    private void initBanner() {
         INTEGERS.add(R.mipmap.launcher_01);
         INTEGERS.add(R.mipmap.launcher_02);
         INTEGERS.add(R.mipmap.launcher_03);
@@ -36,8 +39,8 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
         INTEGERS.add(R.mipmap.launcher_05);
 
         mConvenientBanner
-                .setPages(new LauncherHolderCreater(),INTEGERS)
-                .setPageIndicator(new int[]{R.drawable.dot_normal,R.drawable.dot_focus})
+                .setPages(new LauncherHolderCreater(), INTEGERS)
+                .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
                 .setOnItemClickListener(this)
                 .setCanLoop(false);
@@ -50,6 +53,8 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
 
     @Override
     public void onItemClick(int position) {
-
+        if (position == INTEGERS.size() - 1) {
+            LattePreference.setAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name(),true);
+        }
     }
 }
