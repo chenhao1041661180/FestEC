@@ -58,12 +58,14 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
             start(new LauncherSplishDelegate(), SINGLETASK);
         }
     }
+
     private void onClickTimerView() {
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
-            checkIsShowScroll();
         }
+        checkIsShowScroll();
+
     }
 
     @Override
@@ -74,9 +76,20 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
                 mCount--;
                 if (mCount <= 0) {
                     onClickTimerView();
-                }else
-                mTvTimer.setText(MessageFormat.format("跳过\n{0}s", mCount));
+                } else
+                    mTvTimer.setText(MessageFormat.format("跳过\n{0}s", mCount));
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        getActivity().finish();
+        return super.onBackPressedSupport();
+
     }
 }

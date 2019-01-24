@@ -57,4 +57,11 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
             LattePreference.setAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name(),true);
         }
     }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        getActivity().finish();
+        return super.onBackPressedSupport();
+
+    }
 }
