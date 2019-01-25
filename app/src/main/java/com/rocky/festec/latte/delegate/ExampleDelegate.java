@@ -38,7 +38,7 @@ public class ExampleDelegate extends LatteDelegate {
                     @Override
                     public void onSuccess(String message) {
                         Log.i("xx", "onSuccess:"+message);
-                        Toast.makeText(Latte.getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Latte.getApplicationContext(),message,Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

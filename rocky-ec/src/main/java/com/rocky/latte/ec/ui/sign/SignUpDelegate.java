@@ -1,5 +1,6 @@
 package com.rocky.latte.ec.ui.sign;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -14,7 +15,6 @@ import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.R2;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * 模块说明：
@@ -34,7 +34,15 @@ public class SignUpDelegate extends LatteDelegate {
     public TextInputEditText mPassword;
     @BindView(R2.id.edit_sign_up_re_password)
     public TextInputEditText mRePassword;
+    private ISignListener iSignListener;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ISignListener)
+            iSignListener = (ISignListener) context;
+
+    }
     @Override
     public Object setLayout() {
         return R.layout.delegate_sign_up;
@@ -61,7 +69,7 @@ public class SignUpDelegate extends LatteDelegate {
     private void onClickSignUp() {
         if (checkForm()) {
             RestClient.builder()
-                    .url("/mock/data/user_profile.json")
+                    .url("mock/data/user_profile.json")
                     .params("name", mName.getText().toString())
                     .params("email", mEmail.getText().toString())
                     .params("phone", mPhone.getText().toString())
@@ -70,7 +78,7 @@ public class SignUpDelegate extends LatteDelegate {
                         @Override
                         public void onSuccess(String message) {
                             LatteLogger.json("USER_PROFILE", message);
-//                            SignHandler.onSignUp(response, mISignListener);
+                            SignHandler.onSignUp(message, iSignListener);
                         }
 
                         @Override

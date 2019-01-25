@@ -29,7 +29,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Latte.init(this).withApiHost("http://mock.fulingjie.com")
+        Latte.init(this)
+                .withApiHost("http://mock.fulingjie.com/")
                 .withIcons(new FontEcModule())
                 .withIcons(new FontAwesomeModule())
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))

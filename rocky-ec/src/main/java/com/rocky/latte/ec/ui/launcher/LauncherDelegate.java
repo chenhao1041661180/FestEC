@@ -1,11 +1,14 @@
 package com.rocky.latte.ec.ui.launcher;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.rocky.latte.core.delegates.LatteDelegate;
+import com.rocky.latte.core.sign.AccountManager;
+import com.rocky.latte.core.sign.IUserChecker;
 import com.rocky.latte.core.ui.launcher.ScrollLauncherTag;
 import com.rocky.latte.core.util.storage.LattePreference;
 import com.rocky.latte.core.util.timer.BaseTimerTask;
@@ -31,6 +34,14 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     AppCompatTextView mTvTimer;
     private int mCount = 6;
     private Timer mTimer = null;
+    private ILauncherListener iLauncherListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ILauncherListener)
+            iLauncherListener = (ILauncherListener) context;
+    }
 
     @Override
     public Object setLayout() {
@@ -56,6 +67,22 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     private void checkIsShowScroll() {
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
             startWithPop(new LauncherSplishDelegate());
+        } else {
+            //检查是否已经登录APP
+            AccountManager.checkAccount(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    if (iLauncherListener != null)
+                        iLauncherListener.onLauncherFinish(OnLauncherFinishTag.SIGNED);
+                }
+
+                @Override
+                public void onNotSignIn() {
+                    if (iLauncherListener != null)
+                        iLauncherListener.onLauncherFinish(OnLauncherFinishTag.NOT_SIGNED);
+
+                }
+            });
         }
     }
 

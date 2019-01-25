@@ -1,5 +1,6 @@
 package com.rocky.latte.ec.ui.launcher;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.View;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.rocky.latte.core.delegates.LatteDelegate;
+import com.rocky.latte.core.sign.AccountManager;
+import com.rocky.latte.core.sign.IUserChecker;
 import com.rocky.latte.core.ui.launcher.LauncherHolderCreater;
 import com.rocky.latte.core.ui.launcher.ScrollLauncherTag;
 import com.rocky.latte.core.util.storage.LattePreference;
@@ -24,6 +27,14 @@ import java.util.ArrayList;
 public class LauncherSplishDelegate extends LatteDelegate implements OnItemClickListener {
     ConvenientBanner<Integer> mConvenientBanner = null;
     ArrayList<Integer> INTEGERS = new ArrayList<>();
+    private ILauncherListener iLauncherListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ILauncherListener)
+            iLauncherListener = (ILauncherListener) context;
+    }
 
     @Override
     public Object setLayout() {
@@ -55,6 +66,21 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
     public void onItemClick(int position) {
         if (position == INTEGERS.size() - 1) {
             LattePreference.setAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name(),true);
+            //检查是否已经登录APP
+            AccountManager.checkAccount(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    if (iLauncherListener != null)
+                        iLauncherListener.onLauncherFinish(OnLauncherFinishTag.SIGNED);
+                }
+
+                @Override
+                public void onNotSignIn() {
+                    if (iLauncherListener != null)
+                        iLauncherListener.onLauncherFinish(OnLauncherFinishTag.NOT_SIGNED);
+
+                }
+            });
         }
     }
 

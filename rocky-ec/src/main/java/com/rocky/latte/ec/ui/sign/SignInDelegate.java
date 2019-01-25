@@ -1,11 +1,14 @@
 package com.rocky.latte.ec.ui.sign;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Toast;
 
+import com.rocky.latte.core.app.Latte;
 import com.rocky.latte.core.delegates.LatteDelegate;
 import com.rocky.latte.core.net.RestClient;
 import com.rocky.latte.core.net.callback.ResponseCallback;
@@ -31,6 +34,15 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
     public TextInputEditText mEmail;
     @BindView(R2.id.edit_sign_in_password)
     public TextInputEditText mPassword;
+    private ISignListener iSignListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ISignListener)
+            iSignListener = (ISignListener) context;
+
+    }
 
     //    private ISignListener mISignListener = null;
     @Override
@@ -88,7 +100,7 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
     private void onClickSignIn() {
         if (checkForm()) {
             RestClient.builder()
-                    .url("/mock/data/user_profile.json")
+                    .url("mock/data/user_profile.json")
                     .params("email", mEmail.getText().toString())
                     .params("password", mPassword.getText().toString())
                     .callback(new ResponseCallback() {
@@ -96,11 +108,12 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
                         public void onSuccess(String message) {
                             LatteLogger.json("USER_PROFILE", message);
                             LatteLogger.i("USER_PROFILE", "onSuccess:" + message);
-                            SignHandler.onSignIn(message);
+                            SignHandler.onSignIn(message,iSignListener);
                         }
 
                         @Override
                         public void onFailed() {
+                            Toast.makeText(Latte.getApplicationContext(),"onFailed",Toast.LENGTH_SHORT).show();
                             LatteLogger.i("USER_PROFILE", "onFailed");
                         }
 
@@ -110,7 +123,7 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
                         }
                     })
                     .build()
-                    .post();
+                    .get();
         }
     }
 }
