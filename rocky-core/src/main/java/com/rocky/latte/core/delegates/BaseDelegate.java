@@ -1,6 +1,7 @@
 package com.rocky.latte.core.delegates;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
 public abstract class BaseDelegate extends SwipeBackFragment {
     private Unbinder mUnbinder = null;
-
+    private View mRootView = null;
 
     public abstract Object setLayout();
 
@@ -32,7 +33,12 @@ public abstract class BaseDelegate extends SwipeBackFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    public <T extends View> T $(@IdRes int viewId) {
+        if (mRootView != null) {
+            return mRootView.findViewById(viewId);
+        }
+        throw new NullPointerException("rootView is null");
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public abstract class BaseDelegate extends SwipeBackFragment {
 
         if (rootView != null) {
             mUnbinder = ButterKnife.bind(this, rootView);
-
+            mRootView = rootView;
             onBindView(savedInstanceState, rootView);
         }
 

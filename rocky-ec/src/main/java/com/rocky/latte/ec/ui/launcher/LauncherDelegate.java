@@ -55,7 +55,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     private void checkIsShowScroll() {
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
-            start(new LauncherSplishDelegate(), SINGLETASK);
+            startWithPop(new LauncherSplishDelegate());
         }
     }
 

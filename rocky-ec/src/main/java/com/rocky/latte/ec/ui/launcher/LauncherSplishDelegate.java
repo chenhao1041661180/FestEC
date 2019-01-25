@@ -58,10 +58,4 @@ public class LauncherSplishDelegate extends LatteDelegate implements OnItemClick
         }
     }
 
-    @Override
-    public boolean onBackPressedSupport() {
-        getActivity().finish();
-        return super.onBackPressedSupport();
-
-    }
 }
