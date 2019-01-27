@@ -1,6 +1,8 @@
 package com.rocky.festec.latte;
 
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.rocky.festec.latte.delegate.ExampleDelegate;
@@ -19,6 +21,12 @@ public class ExampleActivity extends ProxyActivity implements ILauncherListener,
     @Override
     public LatteDelegate setRootDelegate() {
         return new LauncherDelegate();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Latte.getConfigurator().withActivity(this);
     }
 
     @Override

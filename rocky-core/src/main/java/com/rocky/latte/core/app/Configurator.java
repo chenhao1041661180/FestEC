@@ -1,5 +1,7 @@
 package com.rocky.latte.core.app;
 
+import android.app.Activity;
+
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 
@@ -93,6 +95,34 @@ public final class Configurator {
     public final Configurator withInterceptors(ArrayList<Interceptor> interceptors) {
         INTERCEPTORS.addAll(interceptors);
         LATTE_CONFIGS.put(ConfigType.INTERCEPTOR, INTERCEPTORS);
+        return this;
+    }
+
+    /**
+     * 添加WECHAT_APP_ID
+     * @param appId
+     * @return
+     */
+    public final Configurator withWeChatAppId(String appId) {
+        LATTE_CONFIGS.put(ConfigType.WE_CHAT_APP_ID, appId);
+        return this;
+    }
+    /**
+     * 添加微信AppSecret
+     * @param appSecret
+     * @return
+     */
+    public final Configurator withWeChatAppSecret(String appSecret) {
+        LATTE_CONFIGS.put(ConfigType.WE_CHAT_APP_SECRET, appSecret);
+        return this;
+    }
+    /**
+     * 添加activity
+     * @param activity
+     * @return
+     */
+    public final Configurator withActivity(Activity activity) {
+        LATTE_CONFIGS.put(ConfigType.ACTIVITY, activity);
         return this;
     }
     /**

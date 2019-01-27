@@ -17,6 +17,8 @@ import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.R2;
 import com.rocky.latte.ec.db.DaoManager;
 import com.rocky.latte.ec.entity.User;
+import com.rocky.latte.ec.wechat.LatteWeChat;
+import com.rocky.latte.ec.wechat.callback.IWeChatSignCallback;
 
 import java.util.List;
 
@@ -93,8 +95,17 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
         } else if (i == R.id.tv_link_sign_up) {
             onClickLink();
         } else if (i == R.id.icon_sign_in_wechat) {
-//            onClickWeChat();
+            onClickWeChat();
         }
+    }
+
+    private void onClickWeChat() {
+        LatteWeChat.getInstance().onSignSuccess(new IWeChatSignCallback() {
+            @Override
+            public void onSignInSuccess(String userInfo) {
+
+            }
+        }).signIn();
     }
 
     private void onClickSignIn() {
@@ -108,12 +119,12 @@ public class SignInDelegate extends LatteDelegate implements View.OnClickListene
                         public void onSuccess(String message) {
                             LatteLogger.json("USER_PROFILE", message);
                             LatteLogger.i("USER_PROFILE", "onSuccess:" + message);
-                            SignHandler.onSignIn(message,iSignListener);
+                            SignHandler.onSignIn(message, iSignListener);
                         }
 
                         @Override
                         public void onFailed() {
-                            Toast.makeText(Latte.getApplicationContext(),"onFailed",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Latte.getApplicationContext(), "onFailed", Toast.LENGTH_SHORT).show();
                             LatteLogger.i("USER_PROFILE", "onFailed");
                         }
 
