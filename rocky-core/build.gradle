@@ -63,4 +63,8 @@ dependencies {
     api 'com.orhanobut:logger:2.2.0'
     //数据库相关
     compile 'org.greenrobot:greendao:3.2.2' // add library
+
+
+    //微信相关（包括统计功能）
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

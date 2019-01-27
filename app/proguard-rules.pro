@@ -21,3 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -keep class com.wang.avi.** { *; }
 -keep class com.wang.avi.indicators.** { *; }
+
+#微信登录混淆
+-keep class com.tencent.mm.opensdk.** { *;}
+-keep class com.tencent.wxop.** {*;}
+-keep class com.tencent.mm.sdk.** {*;}
