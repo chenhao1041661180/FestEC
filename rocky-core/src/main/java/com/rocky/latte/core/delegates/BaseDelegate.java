@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.rocky.latte.core.activities.ProxyActivity;
+import com.rocky.latte.core.app.Latte;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -33,12 +35,14 @@ public abstract class BaseDelegate extends SwipeBackFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     public <T extends View> T $(@IdRes int viewId) {
         if (mRootView != null) {
             return mRootView.findViewById(viewId);
         }
         throw new NullPointerException("rootView is null");
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,10 +63,13 @@ public abstract class BaseDelegate extends SwipeBackFragment {
         return rootView;
     }
 
-//    @Override
+    //    @Override
 //    public ProxyActivity getActivity() {
 //        return (ProxyActivity) _mActivity;
 //    }
+    public void showToast(CharSequence s) {
+        Toast.makeText(Latte.getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onDestroyView() {

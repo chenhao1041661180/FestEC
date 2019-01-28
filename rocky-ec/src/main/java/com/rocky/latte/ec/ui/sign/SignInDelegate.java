@@ -15,8 +15,6 @@ import com.rocky.latte.core.net.callback.ResponseCallback;
 import com.rocky.latte.core.util.LatteLogger;
 import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.R2;
-import com.rocky.latte.ec.db.DaoManager;
-import com.rocky.latte.ec.entity.User;
 import com.rocky.latte.ec.wechat.LatteWeChat;
 import com.rocky.latte.ec.wechat.callback.IWeChatSignCallback;
 

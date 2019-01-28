@@ -11,7 +11,12 @@ import com.joanzapata.iconify.Icon;
 
 public enum EcIconFonts implements Icon {
     icon_scan('\ue60b'),
-    icon_ali_pay('\ue64b');
+    icon_ali_pay('\ue64b'),
+    icon_home('\ue505'),
+    icon_sort('\ue60a'),
+    icon_compass('\ue50c'),
+    icon_shopping_cart('\ue503'),
+    icon_user('\ue699');
 
     private char character;
 
