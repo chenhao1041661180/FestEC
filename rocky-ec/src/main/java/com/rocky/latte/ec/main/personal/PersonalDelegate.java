@@ -3,6 +3,7 @@ package com.rocky.latte.ec.main.personal;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.rocky.latte.core.ui.home.BaseHomeDelegate;
@@ -21,11 +22,13 @@ public class PersonalDelegate extends BaseHomeDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
+        Log.i("xx","我的:"+isSupportVisible());
 //        final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
 //        delegate.setTopDelegate(this.getParentDelegate());
 //        getSupportDelegate().loadRootFragment(R.id.web_discovery_container, delegate);

@@ -32,7 +32,7 @@ public final class Latte {
     public static Context getApplicationContext() {
         return getConfigurations(ConfigType.APPLICATION_CONTEXT);
     }
-//    public static Handler getHandler() {
-//        return getConfigurations(ConfigType.HANDLER);
-//    }
+    public static Handler getHandler() {
+        return getConfigurations(ConfigType.HANDLER);
+    }
 }

@@ -2,6 +2,7 @@ package com.rocky.latte.ec.main.sort;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.rocky.latte.core.ui.home.BaseHomeDelegate;
@@ -23,5 +24,11 @@ public class SortDelegate extends BaseHomeDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
 
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        Log.i("xx","分类:"+isSupportVisible());
     }
 }

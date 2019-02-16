@@ -32,13 +32,13 @@ public class ExampleActivity extends ProxyActivity implements ILauncherListener,
 
     @Override
     public void onSignInSuccess() {
-        Toast.makeText(Latte.getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(Latte.getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         startWithPop(new EcBottomDelegate());
     }
 
     @Override
     public void onSignUpSuccess() {
-        Toast.makeText(Latte.getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(Latte.getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
         startWithPop(new EcBottomDelegate());
     }
 
@@ -47,11 +47,11 @@ public class ExampleActivity extends ProxyActivity implements ILauncherListener,
         switch (tag) {
             case SIGNED:
 
-                Toast.makeText(Latte.getApplicationContext(), "启动结束，用户登录了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Latte.getApplicationContext(), "启动结束，用户登录了", Toast.LENGTH_SHORT).show();
                 startWithPop(new EcBottomDelegate());
                 break;
             case NOT_SIGNED:
-                Toast.makeText(Latte.getApplicationContext(), "启动结束，用户没登录", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Latte.getApplicationContext(), "启动结束，用户没登录", Toast.LENGTH_SHORT).show();
                 startWithPop(new SignInDelegate());
                 break;
             default:

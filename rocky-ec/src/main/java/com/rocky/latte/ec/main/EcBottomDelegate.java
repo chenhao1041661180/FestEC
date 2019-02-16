@@ -35,7 +35,7 @@ public class EcBottomDelegate extends BaseBottomDelegate {
 
     @Override
     public int setIndexDelegate() {
-        return 3;
+        return 0;
     }
 
     @Override

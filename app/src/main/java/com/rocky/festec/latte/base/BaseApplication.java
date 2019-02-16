@@ -33,7 +33,7 @@ public class BaseApplication extends Application {
                 .withApiHost("http://mock.fulingjie.com/")
                 .withIcons(new FontEcModule())
                 .withIcons(new FontAwesomeModule())
-                .withInterceptor(new DebugInterceptor("index", R.raw.test))
+//                .withInterceptor(new DebugInterceptor("test", R.raw.test))
                 .configure();
 
         Stetho.initialize(

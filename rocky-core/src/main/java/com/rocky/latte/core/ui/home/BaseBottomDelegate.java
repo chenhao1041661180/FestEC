@@ -76,7 +76,6 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         int size = ITEMS.size();
-        Log.i("xx",size+"");
         for (int i = 0; i < size; i++) {
             LayoutInflater.from(getContext()).inflate(R.layout.bottom_item_icon_text_layout, mBottomBar);
             RelativeLayout item = (RelativeLayout) mBottomBar.getChildAt(i);
