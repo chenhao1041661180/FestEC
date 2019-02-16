@@ -1,1 +1,1 @@
-include ':app', ':rocky-annotations', ':rocky-compiler', ':rocky-core', ':rocky-ec'
+include ':app', ':rocky-annotations', ':rocky-compiler', ':rocky-core', ':rocky-ec', ':rocky-ui'

@@ -10,7 +10,6 @@ import com.rocky.latte.core.ui.home.BaseHomeDelegate;
 import com.rocky.latte.ec.R;
 
 /**
- * Created by 傅令杰
  */
 
 public class ShopCartDelegate extends BaseHomeDelegate {

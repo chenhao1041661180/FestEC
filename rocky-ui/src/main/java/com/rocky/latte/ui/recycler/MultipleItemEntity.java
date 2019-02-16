@@ -1,12 +1,10 @@
-package com.rocky.latte.core.ui.recycler;
+package com.rocky.latte.ui.recycler;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
-
-import retrofit2.http.PUT;
 
 /**
  * 模块说明：

@@ -1,4 +1,4 @@
-package com.rocky.latte.core.ui.recycler;
+package com.rocky.latte.ui.recycler;
 
 import java.util.ArrayList;
 

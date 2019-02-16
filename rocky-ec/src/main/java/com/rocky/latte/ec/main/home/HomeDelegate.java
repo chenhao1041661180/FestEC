@@ -1,25 +1,20 @@
 package com.rocky.latte.ec.main.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.rocky.latte.core.app.Latte;
-import com.rocky.latte.core.net.RestClient;
-import com.rocky.latte.core.net.callback.ResponseCallback;
 import com.rocky.latte.core.ui.home.BaseHomeDelegate;
-import com.rocky.latte.core.ui.recycler.DataConverter;
-import com.rocky.latte.core.ui.recycler.MultipleFields;
-import com.rocky.latte.core.ui.recycler.MultipleItemEntity;
-import com.rocky.latte.core.ui.refresh.RefreshHolder;
 import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.R2;
-
-import java.util.ArrayList;
+import com.rocky.latte.ui.recycler.BaseDecoration;
+import com.rocky.latte.ui.refresh.RefreshHolder;
 
 import butterknife.BindView;
 
@@ -45,41 +40,23 @@ public class HomeDelegate extends BaseHomeDelegate {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        mRefreshHolder = new RefreshHolder(mRefreshLayout);
-//        mRefreshHolder.firstPage();
-        Log.i("xx","HOME-onLazyInitView:"+isSupportVisible());
+        mRefreshHolder = RefreshHolder.create(mRefreshLayout, mRecyclerView, new HomeDataConverter());
+        mRefreshHolder.firstPage();
+        Log.i("xx", "HOME-onLazyInitView:" + isSupportVisible());
 
-        RestClient.builder()
-                .url("mock/data/index_data.json")
-                .callback(new ResponseCallback() {
-                    @Override
-                    public void onSuccess(String message) {
-                        Log.i("xx",message);
-                        HomeDataConverter dataConverter = new HomeDataConverter();
-                        dataConverter.setJsonData(message);
+    }
 
-                        ArrayList<MultipleItemEntity> list = dataConverter.convert();
-                        Toast.makeText(Latte.getApplicationContext(), (String) list.get(1).getField(MultipleFields.IMAGE_URL),Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        Toast.makeText(Latte.getApplicationContext(),"onFailed",Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(int code, String msg) {
-                        Toast.makeText(Latte.getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .build().get();
-
-
+    @SuppressLint("ResourceType")
+    private void initRecyclerView() {
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(BaseDecoration.create(ContextCompat.getColor(getContext(),R.color.app_background),2));
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        Log.i("xx","HOME-onBindView:"+isSupportVisible());
+        Log.i("xx", "HOME-onBindView:" + isSupportVisible());
+        initRecyclerView();
 
     }
 }

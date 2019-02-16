@@ -1,14 +1,20 @@
-package com.rocky.latte.core.ui.recycler;
+package com.rocky.latte.ui.recycler;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rocky.latte.core.R;
+import com.rocky.latte.ui.banner.BannerCreator;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +26,13 @@ import java.util.List;
  * @date 2019/2/15
  */
 
-public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<MultipleItemEntity, MultipleViewHolder> implements BaseQuickAdapter.SpanSizeLookup {
+public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<MultipleItemEntity, MultipleViewHolder> implements BaseQuickAdapter.SpanSizeLookup, OnBannerListener {
 
-    private final boolean isInitBanner = false;
+    private boolean isInitBanner = false;
+private final  RequestOptions BANNER_OPTIONS = new RequestOptions()
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .dontAnimate();
+//        .centerCrop();
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -31,13 +41,14 @@ public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<Multi
      */
     public MultipleRecyclerviewAdapter(List<MultipleItemEntity> data) {
         super(data);
+        init();
     }
 
-    public MultipleRecyclerviewAdapter create(List<MultipleItemEntity> data) {
+    private MultipleRecyclerviewAdapter create(List<MultipleItemEntity> data) {
         return new MultipleRecyclerviewAdapter(data);
     }
 
-    public MultipleRecyclerviewAdapter create(DataConverter converter) {
+    public static MultipleRecyclerviewAdapter create(DataConverter converter) {
         return new MultipleRecyclerviewAdapter(converter.convert());
     }
 
@@ -51,6 +62,7 @@ public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<Multi
         openLoadAnimation();
         //多次执行动画
         isFirstOnly(false);
+
     }
 
     @Override
@@ -72,6 +84,7 @@ public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<Multi
                 imageUrl = item.getField(MultipleFields.IMAGE_URL);
                 Glide.with(mContext)
                         .load(imageUrl)
+                        .apply(BANNER_OPTIONS)
                         .into((ImageView) helper.getView(R.id.img_single));
                 break;
             case ItemType.TEXT_IMAGE:
@@ -79,13 +92,16 @@ public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<Multi
                 imageUrl = item.getField(MultipleFields.IMAGE_URL);
                 Glide.with(mContext)
                         .load(imageUrl)
+                        .apply(BANNER_OPTIONS)
                         .into((ImageView) helper.getView(R.id.img_multiple));
                 helper.setText(R.id.tv_multiple, text);
                 break;
             case ItemType.BANNER:
-                if (!isInitBanner){
+                if (!isInitBanner) {
                     bannerImages = item.getField(MultipleFields.BANNERS);
-                    final  ConvenientBanner<String> banner = helper.getView(R.id.banner_recycler_item);
+                    final Banner banner = helper.getView(R.id.banner_recycler_item);
+                    BannerCreator.setDefault(banner, bannerImages, this);
+                    isInitBanner = true;
                 }
                 break;
             default:
@@ -96,5 +112,11 @@ public class MultipleRecyclerviewAdapter extends BaseMultiItemQuickAdapter<Multi
     @Override
     public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
         return getData().get(position).getField(MultipleFields.SPAN_SIZE);
+    }
+
+
+    @Override
+    public void OnBannerClick(int position) {
+
     }
 }

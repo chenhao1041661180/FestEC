@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bigkoo.convenientbanner.ConvenientBanner xmlns:android="http://schemas.android.com/apk/res/android"
+<com.youth.banner.Banner xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/banner_recycler_item"
     android:layout_width="match_parent"
-    android:layout_height="260dp" />
+    android:layout_height="200dp"
+    app:indicator_drawable_selected="@color/cardview_light_background"
+    app:indicator_drawable_unselected="@color/cardview_shadow_start_color"
+    app:indicator_height="5dp"
+    app:indicator_width="5dp" />

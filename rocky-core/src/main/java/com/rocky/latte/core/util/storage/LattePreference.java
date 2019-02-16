@@ -9,7 +9,6 @@ import com.rocky.latte.core.app.Latte;
 
 
 /**
- * Created by 傅令杰 on 2017/4/22
  */
 
 public final class LattePreference {
