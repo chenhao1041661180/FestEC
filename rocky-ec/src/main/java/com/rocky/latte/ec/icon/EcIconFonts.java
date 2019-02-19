@@ -10,13 +10,14 @@ import com.joanzapata.iconify.Icon;
  */
 
 public enum EcIconFonts implements Icon {
-    icon_scan('\ue60b'),
-    icon_ali_pay('\ue64b'),
-    icon_home('\ue505'),
-    icon_sort('\ue60a'),
-    icon_compass('\ue50c'),
-    icon_shopping_cart('\ue503'),
-    icon_user('\ue699');
+    icon_scan('\ue6b5'),
+//    icon_ali_pay('\ue64b'),
+    icon_home('\ue503'),
+    icon_sort('\ue502'),
+    icon_compass('\ue61a'),
+    icon_shopping_cart('\ue506'),
+    icon_notice('\ue620'),
+    icon_user('\ue659');
 
     private char character;
 

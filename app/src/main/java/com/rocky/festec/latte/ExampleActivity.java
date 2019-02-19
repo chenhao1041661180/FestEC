@@ -16,6 +16,8 @@ import com.rocky.latte.ec.ui.launcher.LauncherDelegate;
 import com.rocky.latte.ec.ui.sign.ISignListener;
 import com.rocky.latte.ec.ui.sign.SignInDelegate;
 
+import qiu.niorgai.StatusBarCompat;
+
 
 public class ExampleActivity extends ProxyActivity implements ILauncherListener, ISignListener {
 
@@ -28,6 +30,7 @@ public class ExampleActivity extends ProxyActivity implements ILauncherListener,
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Latte.getConfigurator().withActivity(this);
+        StatusBarCompat.translucentStatusBar(this, true);
     }
 
     @Override
