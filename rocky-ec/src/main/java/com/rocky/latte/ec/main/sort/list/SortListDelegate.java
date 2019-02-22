@@ -9,7 +9,6 @@ import android.view.View;
 import com.rocky.latte.core.delegates.LatteDelegate;
 import com.rocky.latte.core.net.RestClient;
 import com.rocky.latte.core.net.callback.ResponseCallback;
-import com.rocky.latte.core.util.LatteLogger;
 import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.R2;
 import com.rocky.latte.ec.main.sort.SortDelegate;
@@ -55,7 +54,7 @@ public class SortListDelegate extends LatteDelegate {
                 .callback(new ResponseCallback() {
                     @Override
                     public void onSuccess(String response) {
-                        LatteLogger.i("xx",response);
+//                        LatteLogger.i("xx",response);
                         final List<MultipleItemEntity> data =
                                 new SortListDataConverter().setJsonData(response).convert();
                         final SortDelegate delegate = getParentDelegate();

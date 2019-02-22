@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.rocky.latte.core.delegates.web.WebDelegateImpl;
 import com.rocky.latte.core.ui.home.BaseHomeDelegate;
 import com.rocky.latte.ec.R;
 
@@ -32,13 +33,13 @@ public class DiscoverDelegate extends BaseHomeDelegate {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         Log.i("xx","发现:"+isSupportVisible());
-//        final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
+        final WebDelegateImpl delegate = WebDelegateImpl.create("second.html");
 //        delegate.setTopDelegate(this.getParentDelegate());
-//        getSupportDelegate().loadRootFragment(R.id.web_discovery_container, delegate);
+        getSupportDelegate().loadRootFragment(R.id.web_discovery_container, delegate);
     }
 
-//    @Override
-//    public FragmentAnimator onCreateFragmentAnimator() {
-//        return new DefaultHorizontalAnimator();
-//    }
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
+    }
 }

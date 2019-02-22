@@ -5,8 +5,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.rocky.latte.core.delegates.LatteDelegate;
 import com.rocky.latte.ec.R;
 import com.rocky.latte.ec.main.sort.SortDelegate;
+import com.rocky.latte.ec.main.sort.content.SortContentDelegate;
 import com.rocky.latte.ui.recycler.ItemType;
 import com.rocky.latte.ui.recycler.MultipleFields;
 import com.rocky.latte.ui.recycler.MultipleItemEntity;
@@ -14,6 +16,8 @@ import com.rocky.latte.ui.recycler.MultipleRecyclerviewAdapter;
 import com.rocky.latte.ui.recycler.MultipleViewHolder;
 
 import java.util.List;
+
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * 模块说明：
@@ -53,10 +57,14 @@ public class SortRecyclerAdapter extends MultipleRecyclerviewAdapter {
                 if (mPrePosition != adapterPosition) {
                     getData().get(mPrePosition).setField(MultipleFields.TAG, false);
                     notifyItemChanged(mPrePosition);
-
+                    //更新选中的item
                     item.setField(MultipleFields.TAG, true);
                     notifyItemChanged(adapterPosition);
                     mPrePosition = adapterPosition;
+
+//                    final int id = item.getField(MultipleFields.ID);
+                    final int contentId = getData().get(adapterPosition).getField(MultipleFields.ID);
+                    showContent(contentId);
                 }
             }
         });
@@ -73,5 +81,25 @@ public class SortRecyclerAdapter extends MultipleRecyclerviewAdapter {
             itemView.setBackgroundColor(Color.WHITE);
         }
 
+    }
+
+    private void showContent(int contentId) {
+        SortContentDelegate delegate = SortContentDelegate.newInstance(contentId);
+        switchDelegate(delegate);
+
+    }
+
+    /**
+     * 切换内容的fragment
+     *
+     * @param delegate
+     */
+    private void switchDelegate(SortContentDelegate delegate) {
+
+        final LatteDelegate contentDelegate = SupportHelper.findFragment(DELEGATE.getChildFragmentManager(), SortContentDelegate.class);
+        if (contentDelegate != null) {
+            contentDelegate.getSupportDelegate().replaceFragment(delegate, false);
+
+        }
     }
 }

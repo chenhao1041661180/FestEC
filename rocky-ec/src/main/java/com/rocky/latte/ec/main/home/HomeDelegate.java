@@ -42,7 +42,6 @@ public class HomeDelegate extends BaseHomeDelegate {
         super.onLazyInitView(savedInstanceState);
         mRefreshHolder = RefreshHolder.create(mRefreshLayout, mRecyclerView, new HomeDataConverter());
         mRefreshHolder.firstPage();
-        Log.i("xx", "HOME-onLazyInitView:" + isSupportVisible());
 
     }
 
